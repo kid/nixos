@@ -1,29 +1,42 @@
 {
+  description = "kid's dotfiles";
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
+    nixpkgs.url = "nixpkgs/nixos-21.05";
 
     home-manager.url = "github:nix-community/home-manager/release-21.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # tell home-manager to use the flake version of nixpkgs
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { self, nixpkgs, home-manager, neovim-nightly-overlay }:
+  outputs = inputs@{ nixpkgs, home-manager, neovim-nightly-overlay, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
+
         config = { allowUnfree = true; };
-        overlays = [ neovim-nightly-overlay.overlay ];
+        overlays = [
+          neovim-nightly-overlay
+        ];
       };
+
+      lib = nixpkgs.lib;
+
     in
     {
-      nixosConfigurations.nixos =
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+      # packages."${system}" = pkgs;
+      nixosConfigurations = {
+        nixos = lib.nixosSystem {
+          inherit system;
+
+          nixpkgs.overlays = [
+            neovim-nightly-overlay
+          ];
 
           modules = [
-            { nixpkgs = { inherit pkgs; }; }
             ./system/configuration.nix
             home-manager.nixosModules.home-manager
             {
@@ -33,5 +46,6 @@
             }
           ];
         };
+      };
     };
 }
