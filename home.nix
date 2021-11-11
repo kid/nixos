@@ -19,7 +19,6 @@
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
-  programs.direnv.nix-direnv.enableFlakes = true;
 
   programs.zsh = {
     enable = true;
@@ -37,6 +36,11 @@
     ];
   };
 
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   gtk = {
     enable = true;
     theme = {
@@ -44,4 +48,6 @@
       package = pkgs.gruvbox-dark-gtk;
     };
   };
+
+  programs.home-manager.enable = true;
 }

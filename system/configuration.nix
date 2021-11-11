@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   imports =
     [
@@ -36,7 +36,6 @@
   # i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "FiraCode";
-  #   keyMap = "us";
   };
 
   # Enable the X11 windowing system.
@@ -44,8 +43,6 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
-
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -57,6 +54,7 @@
     pulse.enable = true;
   };
 
+  programs.dconf.enable = true;
   programs.zsh.enable = true;
   users.users.kid = {
     isNormalUser = true;
@@ -81,7 +79,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "unstable";
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
