@@ -9,7 +9,7 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
-      ./../home.nix
+      # ./../home.nix
     ];
 
   nix.package = pkgs.nixFlakes;
@@ -134,10 +134,10 @@
     extraGroups = [ "wheel" ];
   };
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
+  # nixpkgs.overlays = [
+  #   (import (builtins.fetchTarball {
+  #     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+  #   }))
+  # ];
 }
 

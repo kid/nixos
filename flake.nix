@@ -3,31 +3,34 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-21.05";
-    home-manager.url = "github:nix-community/home-manager/release-21.05";
+    # home-manager.url = "github:nix-community/home-manager/release-21.05";
 
     # tell home-manager to use the flake version of nixpkgs
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
-  let
-    system = "x86-64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-
-      config = { allowUnfree = true; };
-    };
-
-    lib = nixpkgs.lib;
-  in {  
-    nixosConfigurations = {
-      nixos = lib.nixosSystem {
+  # outputs = { nixpkgs, home-manager, ... }:
+  outputs = inputs @ { self, nixpkgs, ... }:
+    let
+      system = "x86-64-linux";
+      pkgs = import nixpkgs {
         inherit system;
 
-        modules = [
-          ./system/configuration.nix
-        ];
+        config = { allowUnfree = true; };
+      };
+
+      lib = nixpkgs.lib;
+    in
+    {
+      packages."${system}" = pkgs;
+      nixosConfigurations = {
+        nixos = lib.nixosSystem {
+          inherit system;
+
+          modules = [
+            ./system/configuration.nix
+          ];
+        };
       };
     };
-  };
 }
