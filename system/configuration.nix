@@ -52,6 +52,7 @@
   #   pkgs.haskellPackages.xmobar
   # ];
 
+  security.sudo.wheelNeedsPassword = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

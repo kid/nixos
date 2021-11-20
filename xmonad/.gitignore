@@ -1,10 +1,4 @@
-/.stack-work*
-/dist/
-/kid-xmonad
-/xmonad-x86_64-linux
+/.stack-work
+/dist-newstyle
+/result
 /xmonad.errors
-/xmonad.hi
-/xmonad.o
-/xmonad.state
-/prompt-history
-/.cached-stack-install-path

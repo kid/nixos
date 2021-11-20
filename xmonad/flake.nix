@@ -6,12 +6,10 @@
     flake-utils.url = github:numtide/flake-utils;
     xmonad = {
       url = github:xmonad/xmonad;
-      # url = path:./xmonad;
       inputs.nixpkgs.follows = "nixpkgs";
     };
     xmonad-contrib = {
       url = github:xmonad/xmonad-contrib;
-      # url = path:./xmonad-contrib;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -26,34 +24,15 @@
         let
           pkgs = import nixpkgs {
             inherit system overlays;
+            config.allowBroken = true;
           };
         in
-        #   rec {
-          #     devShell = mkShell {
-          #       buildInputs = with pkgs.haskellPackages; [
-          #         cabal-install
-          #         haskell-language-server
-          #         hlint
-          #         ghcid
-          #         ormolu
-          #         implicit-hie
-          #         xmonad
-          #         xmonad-contrib
-          #       ] ++ [ xorg.libX11 xorg.libXinerama xorg.libXext xorg.libXrandr xorg.libXScrnSaver ];
-          #       # buildInputs = [
-          #       #   haskellPackages.stack
-          #       #   # haskellPackages.ghc
-          #       #   haskellPackages.haskell-language-server
-          #       #   # haskellPackages.hlint
-          #       # ];
-          #     };
-          #   }
-          # );
         rec {
           devShell = pkgs.haskellPackages.shellFor {
             packages = p: [ p.kid-xmonad p.xmonad-contrib ];
             buildInputs = with pkgs.haskellPackages; [
               cabal-install
+              cabal-fmt
               haskell-language-server
               hlint
               ghcid

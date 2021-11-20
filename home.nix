@@ -21,6 +21,7 @@
     # haskellPackages.xmonad
     haskellPackages.kid-xmonad
     haskellPackages.xmobar
+    xorg.xmessage
   ];
 
   programs.direnv.enable = true;
