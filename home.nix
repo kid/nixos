@@ -15,6 +15,12 @@
     gcc
     git
     gh
+    _1password-gui
+    # pkgs.haskellPackages.xmobar
+    tdesktop # telegram
+    # haskellPackages.xmonad
+    haskellPackages.kid-xmonad
+    haskellPackages.xmobar
   ];
 
   programs.direnv.enable = true;

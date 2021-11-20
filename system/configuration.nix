@@ -38,11 +38,19 @@
     font = "FiraCode";
   };
 
+  services.udev.extraRules = ''
+    ACTION="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c539", ATTR{power/wakeup}="disabled", ATTR{driver/5-4.3.1/power/wakeup}="disabled"
+  '';
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.windowManager.xmonad.enable = true;
-  services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+  services.xserver.displayManager.startx.enable = true;
+  # services.xserver.windowManager.xmonad.enable = true;
+  # services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+  # services.xserver.windowManager.xmonad.haskellPackages = [
+  #   pkgs.haskellPackages.xmobar
+  # ];
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -53,6 +61,8 @@
     };
     pulse.enable = true;
   };
+
+  programs.steam.enable = true;
 
   programs.dconf.enable = true;
   programs.zsh.enable = true;
@@ -84,5 +94,8 @@
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
+
+  hardware.opengl.enable = true; 
+  hardware.opengl.driSupport = true;
 }
 
