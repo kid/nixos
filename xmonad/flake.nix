@@ -38,8 +38,25 @@
               ghcid
               ormolu
               implicit-hie
+              xmobar
             ];
           };
-          defaultPackage = pkgs.haskellPackages.kid-xmonad;
+          # defaultPackage = pkgs.haskellPackages.xmonad-foo;
+          defaultPackage = pkgs.haskellPackages.xmonad-kid.overrideAttrs (oa: rec {
+            nativeBuildInputs = oa.nativeBuildInputs ++ [pkgs.makeWrapper];
+            name = "xmonad-${system}";
+            installPhase = oa.installPhase + ''
+              ln -s ${pkgs.haskellPackages.xmobar}/bin/xmobar $out/bin/xmobar
+              ln -s ${pkgs.haskellPackages.xmonad-kid}/bin/xmonad-kid $out/bin/xmonad-${system}
+            '';
+            postFixup = ''
+              wrapProgram $out/bin/xmonad-${system} --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.haskellPackages.xmobar]}
+            '';
+          });
+          # defaultPackage = (pkgs.haskellPackages.xmonad-foo (oa: {
+          #   installPhase = oa.installPhase + ''
+          #     ln -s ${pkgs.haskellPackages.xmobar} $out/bin/xmobar
+          #   '';
+          # }));
         }) // { inherit overlay overlays; };
 }

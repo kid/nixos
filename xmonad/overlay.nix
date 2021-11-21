@@ -1,7 +1,7 @@
 _: pkgs: rec {
   haskellPackages = pkgs.haskellPackages.override (old: {
     overrides = pkgs.lib.composeExtensions (old.overrides or (_: _: { })) (self: super: rec {
-      kid-xmonad = self.callCabal2nix "xmonad-kid"
+      xmonad-kid = self.callCabal2nix "xmonad-kid"
         (
           pkgs.lib.sourceByRegex ./.
             [

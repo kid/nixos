@@ -7,7 +7,7 @@ category:      System
 build-type:    Simple
 cabal-version: >=1.10
 
-executable xmonad
+executable xmonad-kid
   main-is:          xmonad.hs
   build-depends:
       base
